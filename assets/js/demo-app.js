@@ -1,37 +1,93 @@
 (function () {
   "use strict";
 
-  var KEY = "bladeos.demo.v1";
+  var KEY = "bladeos.demo.v3";
   var SURFACE_KEY = "bladeos.demo.surface";
   var app = document.getElementById("app");
   var surface = sessionStorage.getItem(SURFACE_KEY) || "ops";
   var portalMemberId = "";
 
+  function demoDate(offsetDays) {
+    var date = new Date();
+    date.setDate(date.getDate() + offsetDays);
+    var month = String(date.getMonth() + 1).padStart(2, "0");
+    var day = String(date.getDate()).padStart(2, "0");
+    return date.getFullYear() + "-" + month + "-" + day;
+  }
+
+  function demoStamp(offsetDays, time) {
+    return demoDate(offsetDays) + "T" + time;
+  }
+
   function blank() {
+    var today = demoDate(0);
+    var tomorrow = demoDate(1);
     return {
       club: {
-        name: "New club",
-        city: "",
+        name: "Demo club",
+        city: "Austin",
         accent: "#2F6FFF",
-        supportEmail: "",
-        timezone: "America/New_York"
+        supportEmail: "desk@demo.bladeos.ai",
+        timezone: "America/Chicago"
       },
-      locations: [],
-      coaches: [],
-      plans: [],
-      members: [],
-      sessions: [],
-      bookings: [],
-      privates: [],
+      locations: [
+        { id: "loc-main", name: "Main hall", city: "Austin", address: "1200 Blade Street" },
+        { id: "loc-youth", name: "Youth room", city: "Austin", address: "1200 Blade Street" }
+      ],
+      coaches: [
+        { id: "coach-marcus", name: "Marcus Hale", email: "marcus.hale@demo.bladeos.ai", weapon: "Epee", status: "Active" },
+        { id: "coach-sofia", name: "Sofia Nguyen", email: "sofia.nguyen@demo.bladeos.ai", weapon: "Foil", status: "Active" }
+      ],
+      plans: [
+        { id: "plan-unlimited", name: "Unlimited", price: "180", interval: "Monthly", credits: "" },
+        { id: "plan-10", name: "10 class pack", price: "140", interval: "Punch card", credits: "10" },
+        { id: "plan-5", name: "5 class pack", price: "80", interval: "Punch card", credits: "5" }
+      ],
+      members: [
+        { id: "fencer-lina", firstName: "Lina", lastName: "Ortega", email: "lina.ortega@demo.bladeos.ai", phone: "512-555-0142", household: "Ortega", status: "Active", planId: "plan-unlimited", locationId: "loc-main" },
+        { id: "fencer-jonah", firstName: "Jonah", lastName: "Ortega", email: "jonah.ortega@demo.bladeos.ai", phone: "512-555-0143", household: "Ortega", status: "Active", planId: "plan-10", locationId: "loc-main" },
+        { id: "fencer-camille", firstName: "Camille", lastName: "Duval", email: "camille.duval@demo.bladeos.ai", phone: "512-555-0177", household: "", status: "Active", planId: "plan-unlimited", locationId: "loc-main" },
+        { id: "fencer-priya", firstName: "Priya", lastName: "Shah", email: "priya.shah@demo.bladeos.ai", phone: "512-555-0190", household: "Shah", status: "Active", planId: "plan-10", locationId: "loc-youth" },
+        { id: "fencer-maya", firstName: "Maya", lastName: "Chen", email: "maya.chen@demo.bladeos.ai", phone: "512-555-0118", household: "", status: "Active", planId: "plan-unlimited", locationId: "loc-main" },
+        { id: "fencer-owen", firstName: "Owen", lastName: "Park", email: "owen.park@demo.bladeos.ai", phone: "512-555-0164", household: "", status: "Active", planId: "plan-5", locationId: "loc-main" },
+        { id: "fencer-elias", firstName: "Elias", lastName: "Brenner", email: "elias.brenner@demo.bladeos.ai", phone: "512-555-0129", household: "", status: "Prospect", planId: "", locationId: "loc-youth" },
+        { id: "fencer-hugo", firstName: "Hugo", lastName: "Martin", email: "hugo.martin@demo.bladeos.ai", phone: "512-555-0188", household: "", status: "Paused", planId: "plan-5", locationId: "loc-main" }
+      ],
+      sessions: [
+        { id: "session-foil", title: "Foil open", weapon: "Foil", date: today, start: "18:00", end: "19:00", capacity: "12", coachId: "coach-sofia", locationId: "loc-main" },
+        { id: "session-epee", title: "Epee training", weapon: "Epee", date: today, start: "19:15", end: "20:30", capacity: "10", coachId: "coach-marcus", locationId: "loc-main" },
+        { id: "session-sabre", title: "Youth sabre", weapon: "Sabre", date: tomorrow, start: "16:00", end: "17:00", capacity: "8", coachId: "coach-sofia", locationId: "loc-youth" }
+      ],
+      bookings: [
+        { id: "book-lina-foil", sessionId: "session-foil", memberId: "fencer-lina", status: "Booked" },
+        { id: "book-camille-foil", sessionId: "session-foil", memberId: "fencer-camille", status: "Booked" },
+        { id: "book-maya-foil", sessionId: "session-foil", memberId: "fencer-maya", status: "Attended" },
+        { id: "book-jonah-epee", sessionId: "session-epee", memberId: "fencer-jonah", status: "Booked" },
+        { id: "book-owen-epee", sessionId: "session-epee", memberId: "fencer-owen", status: "Booked" },
+        { id: "book-priya-sabre", sessionId: "session-sabre", memberId: "fencer-priya", status: "Booked" },
+        { id: "book-elias-sabre", sessionId: "session-sabre", memberId: "fencer-elias", status: "Booked" }
+      ],
+      privates: [
+        { id: "private-lina", memberId: "fencer-lina", coachId: "coach-marcus", date: tomorrow, start: "10:00", minutes: "30", status: "Confirmed" },
+        { id: "private-camille", memberId: "fencer-camille", coachId: "coach-marcus", date: today, start: "17:00", minutes: "45", status: "Completed" }
+      ],
       products: [],
       discounts: [],
       leads: [],
       invoices: [],
       expenses: [],
-      checkins: [],
+      checkins: [
+        { id: "checkin-maya", memberId: "fencer-maya", method: "Kiosk", at: demoStamp(0, "17:55") },
+        { id: "checkin-camille", memberId: "fencer-camille", method: "Front desk", at: demoStamp(0, "17:50") }
+      ],
       campaigns: [],
       videos: [],
-      staff: [],
+      staff: [
+        { id: "staff-marcus", name: "Marcus Hale", email: "marcus.hale@demo.bladeos.ai", role: "Coach profile" },
+        { id: "staff-sofia", name: "Sofia Nguyen", email: "sofia.nguyen@demo.bladeos.ai", role: "Coach profile" },
+        { id: "staff-lina", name: "Lina Ortega", email: "lina.ortega@demo.bladeos.ai", role: "Fencer profile" },
+        { id: "staff-jonah", name: "Jonah Ortega", email: "jonah.ortega@demo.bladeos.ai", role: "Fencer profile" }
+      ],
       competitions: [],
       whatsapp: { connected: false, phone: "", templates: [] }
     };
@@ -47,13 +103,30 @@
         else if (key === "whatsapp") base.whatsapp = Object.assign(base.whatsapp, parsed.whatsapp || {});
         else if (Array.isArray(parsed[key])) base[key] = parsed[key];
       });
+      refreshDemoCalendar(base);
       return base;
     } catch (error) {
       return blank();
     }
   }
 
+  function refreshDemoCalendar(data) {
+    var sessionDay = { "session-foil": 0, "session-epee": 0, "session-sabre": 1 };
+    var privateDay = { "private-lina": 1, "private-camille": 0 };
+    data.sessions.forEach(function (row) {
+      if (sessionDay[row.id] != null) row.date = demoDate(sessionDay[row.id]);
+    });
+    data.privates.forEach(function (row) {
+      if (privateDay[row.id] != null) row.date = demoDate(privateDay[row.id]);
+    });
+    data.checkins.forEach(function (row) {
+      if (row.id === "checkin-maya") row.at = demoStamp(0, "17:55");
+      if (row.id === "checkin-camille") row.at = demoStamp(0, "17:50");
+    });
+  }
+
   var state = load();
+  if (state.members[0]) portalMemberId = state.members[0].id;
 
   function save() {
     localStorage.setItem(KEY, JSON.stringify(state));
@@ -114,7 +187,7 @@
     coaches: {
       title: "Coaches",
       badge: "Core · coach manager",
-      lead: "Coach records are empty until the club adds its staff. A coach profile for login is billed separately.",
+      lead: "Marcus Hale and Sofia Nguyen are on the schedule. Their coach profiles are under User profiles.",
       create: "Add coach",
       fields: [
         { key: "name", label: "Name", required: true },
@@ -150,7 +223,7 @@
     members: {
       title: "Members",
       badge: "Core",
-      lead: "The roster starts empty. Nothing is imported from another club.",
+      lead: "Eight demo fencers are ready for kiosk, schedule, and booking. Nothing here comes from a real club.",
       create: "Add member",
       fields: [
         { key: "firstName", label: "First name", required: true },
@@ -173,7 +246,7 @@
     sessions: {
       title: "Schedule",
       badge: "Core · group classes",
-      lead: "The class calendar is blank. Add a session, then book members onto it.",
+      lead: "Foil and epee are on today’s board. Youth sabre is tomorrow. Book another fencer below.",
       create: "Add class",
       fields: [
         { key: "title", label: "Class", required: true },
@@ -196,7 +269,7 @@
     bookings: {
       title: "Class bookings",
       badge: "Core",
-      lead: "Bookings attach a member to a class. Both lists start empty.",
+      lead: "These fencers are already booked. Add another booking to walk through the front desk.",
       create: "Book class",
       fields: [
         { key: "sessionId", label: "Class", type: "ref", ref: "sessions", required: true },
@@ -321,7 +394,7 @@
     checkins: {
       title: "Check-in",
       badge: "Add-on · kiosk",
-      lead: "Attendance starts at zero. A check-in is written only when someone arrives.",
+      lead: "Maya Chen already checked in at the kiosk. Camille Duval checked in at the front desk. Check in anyone else from the kiosk.",
       create: "Record check-in",
       fields: [
         { key: "memberId", label: "Member", type: "ref", ref: "members", required: true },
@@ -369,12 +442,12 @@
     staff: {
       title: "User profiles",
       badge: "Coach $5 · Super admin $20",
-      lead: "No staff logins are provisioned. Coach profiles and super admins are added per person.",
+      lead: "The demo includes one coach profile and one fencer profile. Add more when you need them.",
       create: "Add profile",
       fields: [
         { key: "name", label: "Name", required: true },
         { key: "email", label: "Email", type: "email", required: true },
-        { key: "role", label: "Role", type: "select", options: ["Coach profile", "Super admin"], default: "Coach profile" }
+        { key: "role", label: "Role", type: "select", options: ["Coach profile", "Fencer profile", "Super admin"], default: "Coach profile" }
       ],
       columns: [
         { label: "Name", value: function (row) { return esc(row.name); } },
@@ -596,7 +669,7 @@
   }
 
   function topbar() {
-    return '<header class="topbar"><div class="topbar-left"><strong class="club-name">' + esc(state.club.name) + '</strong><span class="pill">Blank tenant</span></div><div class="topbar-right">'
+    return '<header class="topbar"><div class="topbar-left"><strong class="club-name">' + esc(state.club.name) + '</strong><span class="pill">Demo</span></div><div class="topbar-right">'
       + '<label class="field" style="flex-direction:row;align-items:center">Surface <select class="surface-select" data-surface-select>'
       + option("ops", "Club operations")
       + option("member", "Member portal")
@@ -605,7 +678,8 @@
       + option("screen", "Schedule screen")
       + "</select></label>"
       + '<button class="btn btn-secondary danger" type="button" data-reset>Reset database</button>'
-      + '<a class="btn btn-secondary" href="index.html">Exit</a></div></header>';
+      + '<a class="btn btn-secondary" href="index.html">Exit</a>'
+      + '<a class="btn btn-secondary" href="login.html" data-sign-out>Sign out</a></div></header>';
   }
 
   function option(value, label) {
@@ -660,7 +734,7 @@
     var list = state.members.length ? state.members.map(function (member) {
       return '<button type="button" data-kiosk="' + esc(member.id) + '"><strong>' + esc(nameOf(member)) + "</strong><br><span class=\"muted\">" + esc(member.status || "") + "</span></button>";
     }).join("") : '<div class="empty"><h2>No one to check in</h2><p>Add members before the front desk can use the kiosk.</p></div>';
-    return '<div class="kiosk"><div class="kiosk-list"><div class="kiosk-head"><strong>Kiosk</strong></div>' + list + '</div><div class="kiosk-main"><div class="empty"><h2>Select a member</h2><p>A tap writes a kiosk check-in into the empty attendance log.</p></div></div></div>';
+    return '<div class="kiosk"><div class="kiosk-list"><div class="kiosk-head"><strong>Kiosk</strong></div>' + list + '</div><div class="kiosk-main"><div class="empty"><h2>Select a member</h2><p>Tap a fencer to record a kiosk arrival. Maya Chen and Camille Duval are already checked in today.</p></div></div></div>';
   }
 
   function screen() {
@@ -683,7 +757,7 @@
     app.innerHTML = '<div class="shell" style="' + (showSide ? "" : "grid-template-columns:1fr") + '">'
       + (showSide ? sidebar() : "")
       + '<div class="workspace">' + topbar()
-      + '<div class="banner">Blank club database. Records stay in this browser. Reset clears the tenant. No roster, payment, or message is loaded from another club.</div>'
+      + '<div class="banner">Demo roster, classes, and bookings are loaded for kiosk and schedule walkthroughs. Reset restores this sample. No real club data is included.</div>'
       + main + "</div></div>";
   }
 
@@ -696,9 +770,9 @@
   app.addEventListener("click", function (event) {
     var reset = event.target.closest("[data-reset]");
     if (reset) {
-      if (window.confirm("Clear this club and return to an empty database?")) {
+      if (window.confirm("Restore the demo roster, classes, and bookings, and remove every other record?")) {
         state = blank();
-        portalMemberId = "";
+        portalMemberId = state.members[0] ? state.members[0].id : "";
         save();
         render();
       }

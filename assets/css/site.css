@@ -291,6 +291,35 @@ td:last-child, th:last-child { text-align: right; }
   font-size: 14px;
 }
 
+.login-screen {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 85% 10%, rgba(47, 111, 255, 0.35), transparent 28%),
+    linear-gradient(135deg, #061735, #071b46 58%, #0c2864);
+}
+.login-card {
+  width: min(420px, 100%);
+  background: white;
+  border-radius: 20px;
+  padding: 28px;
+  display: grid;
+  gap: 12px;
+}
+.login-card img { height: 40px; width: auto; }
+.login-card h1 { margin: 0; font-size: 32px; letter-spacing: -0.8px; }
+.login-card .field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; }
+.login-card input {
+  min-height: 44px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 0 12px;
+}
+.login-error { min-height: 1.2em; margin: 0; color: var(--error); font-size: 14px; }
+.login-hint { margin: 0; color: var(--muted); font-size: 14px; }
+
 input:focus, select:focus, textarea:focus, button:focus-visible, a:focus-visible {
   outline: 3px solid rgba(47, 111, 255, 0.35);
   outline-offset: 2px;

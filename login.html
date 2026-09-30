@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in — BladeOS.ai</title>
+  <meta name="description" content="Demo sign-in for the BladeOS.ai club operating system.">
+  <link rel="icon" href="assets/brand/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+  <main class="login-screen">
+    <form class="login-card" data-login>
+      <img src="assets/brand/horizontal.png" alt="BladeOS.ai">
+      <p class="kicker">Demo access</p>
+      <h1>Sign in</h1>
+      <p class="muted">This login opens every page of the demo. It is not a club account.</p>
+      <label class="field">Username
+        <input name="username" autocomplete="username" required value="123456">
+      </label>
+      <label class="field">Password
+        <input name="password" type="password" autocomplete="current-password" required value="123456">
+      </label>
+      <p class="login-error" data-login-error role="alert"></p>
+      <button class="btn btn-primary" type="submit">Enter the demo</button>
+      <p class="login-hint">Username <strong>123456</strong> · Password <strong>123456</strong></p>
+    </form>
+  </main>
+  <script src="assets/js/auth.js"></script>
+</body>
+</html>

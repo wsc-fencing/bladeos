@@ -2,7 +2,9 @@
 
 Commercial demo for [BladeOS.ai](https://bladeos.ai), the white-label operating system for fencing clubs.
 
-The site is English only. The live demo opens a **blank club tenant**: members, classes, invoices, leads, and videos start empty and stay in the browser. Reset clears them. No customer database is included.
+The site is English only. Every page asks for the demo sign-in: username `123456`, password `123456`.
+
+The club demo includes sample people for walkthroughs: coaches **Marcus Hale** and **Sofia Nguyen**, and fencers **Lina Ortega**, **Jonah Ortega**, **Camille Duval**, **Priya Shah**, **Maya Chen**, **Owen Park**, **Elias Brenner**, and **Hugo Martin**. Today’s foil and epee classes, tomorrow’s youth sabre, bookings, private lessons, and two check-ins are included. Reset restores that sample. No customer database is included.
 
 ## Pages
 
